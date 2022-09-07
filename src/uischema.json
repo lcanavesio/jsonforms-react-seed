@@ -2,54 +2,27 @@
   "type": "VerticalLayout",
   "elements": [
     {
-      "type": "Control",
-      "label": "Completed",
-      "scope": "#/properties/done"
-    },
-    {
-      "type": "Control",
-      "scope": "#/properties/name"
-    },
-    {
-      "type": "HorizontalLayout",
+      "type": "VerticalLayout",
       "elements": [
         {
           "type": "Control",
-          "scope": "#/properties/due_date"
+          "scope": "#/properties/date",
+          "options": {
+            "format": "date",
+            "dateFormat": "DD/MM/YYYY",
+            "dateSaveFormat": "DD/MM/YYYY"
+          }
         },
         {
           "type": "Control",
-          "scope": "#/properties/rating"
-        }
-      ]
-    },
-    {
-      "type": "HorizontalLayout",
-      "elements": [
-        {
-          "type": "Control",
-          "scope": "#/properties/recurrence"
-        },
-        {
-          "type": "Control",
-          "scope": "#/properties/recurrence_interval",
-          "rule": {
-            "effect": "HIDE",
-            "condition": {
-              "type": "LEAF",
-              "scope": "#/properties/recurrence",
-              "expectedValue": "Never"
-            }
+          "scope": "#/properties/dateES",
+          "options": {
+            "format": "date",
+            "dateFormat": "DD/MM/YYYY",
+            "dateSaveFormat": "DD/MM/YYYY"
           }
         }
       ]
-    },
-    {
-      "type": "Control",
-      "scope": "#/properties/description",
-      "options": {
-        "multi": true
-      }
     }
   ]
 }

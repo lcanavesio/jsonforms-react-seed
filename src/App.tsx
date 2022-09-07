@@ -1,21 +1,24 @@
-import { Fragment, useState, useMemo } from 'react';
-import { JsonForms } from '@jsonforms/react';
-import Grid from '@mui/material/Grid';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import logo from './logo.svg';
-import './App.css';
-import schema from './schema.json';
-import uischema from './uischema.json';
 import {
   materialCells,
   materialRenderers,
 } from '@jsonforms/material-renderers';
+import { JsonForms } from '@jsonforms/react';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+import { Fragment, useMemo, useState } from 'react';
+import './App.css';
+import logo from './logo.svg';
 import RatingControl from './RatingControl';
 import ratingControlTester from './ratingControlTester';
-import { makeStyles } from '@mui/styles';
+import schema from './schema.json';
+import uischema from './uischema.json';
 
-const useStyles = makeStyles({
+import { Typography } from '@mui/material';
+import MaterialDateControl, {
+  materialDateControlTester,
+} from './MaterialDateControl';
+
+const useStyles = () => ({
   container: {
     padding: '1em',
     width: '100%',
@@ -42,17 +45,18 @@ const useStyles = makeStyles({
 });
 
 const initialData = {
-  name: 'Send email to Adrian',
-  description: 'Confirm if you have passed the subject\nHereby ...',
-  done: true,
-  recurrence: 'Daily',
-  rating: 3,
+  date: '01/01/2022',
+  dateES: '06/06/2022',
 };
 
 const renderers = [
   ...materialRenderers,
   //register custom renderers
   { tester: ratingControlTester, renderer: RatingControl },
+  {
+    tester: materialDateControlTester,
+    renderer: MaterialDateControl,
+  },
 ];
 
 const App = () => {
@@ -63,7 +67,10 @@ const App = () => {
   const clearData = () => {
     setData({});
   };
-
+  const handleChange = (errors: any, data: any) => {
+    console.log('errors', errors);
+    setData(data);
+  };
   return (
     <Fragment>
       <div className='App'>
@@ -78,17 +85,17 @@ const App = () => {
         container
         justifyContent={'center'}
         spacing={1}
-        className={classes.container}
+        sx={classes.container}
       >
         <Grid item sm={6}>
-          <Typography variant={'h4'} className={classes.title}>
+          <Typography variant={'h4'} sx={classes.title}>
             Bound data
           </Typography>
-          <div className={classes.dataContent}>
+          <Grid sx={classes.dataContent}>
             <pre id='boundData'>{stringifiedData}</pre>
-          </div>
+          </Grid>
           <Button
-            className={classes.resetButton}
+            sx={classes.resetButton}
             onClick={clearData}
             color='primary'
             variant='contained'
@@ -97,19 +104,19 @@ const App = () => {
           </Button>
         </Grid>
         <Grid item sm={6}>
-          <Typography variant={'h4'} className={classes.title}>
+          <Typography variant={'h4'} sx={classes.title}>
             Rendered form
           </Typography>
-          <div className={classes.demoform}>
+          <Grid sx={classes.demoform}>
             <JsonForms
               schema={schema}
               uischema={uischema}
               data={data}
               renderers={renderers}
               cells={materialCells}
-              onChange={({ errors, data }) => setData(data)}
+              onChange={({ errors, data }) => handleChange(errors, data)}
             />
-          </div>
+          </Grid>
         </Grid>
       </Grid>
     </Fragment>

@@ -1,5 +1,6 @@
 import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
-import ReactDOM from 'react-dom';
+import React from 'react';
+import { createRoot } from 'react-dom/client';
 import App from './App';
 
 /**
@@ -12,15 +13,21 @@ const theme = createTheme({
         root: {
           margin: '0.8em 0',
         },
-      }
+      },
     },
   },
 });
 
-ReactDOM.render(
-  <ThemeProvider theme={theme}>
-    <CssBaseline />
-    <App />
-  </ThemeProvider>,
-  document.getElementById('root')
+const rootElement = document.getElementById('root');
+if (!rootElement) {
+  throw new Error('Could not find root element');
+}
+
+createRoot(rootElement).render(
+  <React.StrictMode>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <App />
+    </ThemeProvider>
+  </React.StrictMode>
 );
